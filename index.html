@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BrandBase AI Discovery｜AI 智創品牌健檢工作坊</title>
+    <!-- 確保此處為乾淨的網址，無 Markdown 標記 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        .ai-markdown ul { list-style-type: disc; padding-left: 1.5rem; margin-top: 0.5rem; margin-bottom: 0.5rem; }
+        .ai-markdown p { margin-bottom: 0.5rem; }
+        @keyframes highlightFill {
+            0% { background-color: #fef08a; }
+            100% { background-color: #ffffff; }
+        }
+        .ai-filled { animation: highlightFill 1.5s ease-out; }
+        /* 呼吸燈動畫 */
+        @keyframes pulse-green {
+            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+        .status-connected {
+            background-color: #10b981;
+            animation: pulse-green 2s infinite;
+        }
+        /* 自訂 details 展開箭頭動畫 */
+        details > summary { list-style: none; }
+        details > summary::-webkit-details-marker { display: none; }
+    </style>
+</head>
+<body class="bg-slate-50 pt-20 text-slate-800 min-h-screen flex flex-col">
+
+    <!-- 頂部導覽列 -->
+    <header class="fixed top-0 left-0 right-0 z-50 h-16 bg-slate-900 text-white shadow-lg flex items-center justify-between px-6">
+        <div class="flex items-center gap-4">
+            <!-- 去除圖片白框 bg-white 與 padding -->
+            <img src="https://i.postimg.cc/sfZYJbq1/Brand-Base.png" alt="BrandBase Logo" class="h-8">
+            <h1 class="text-xl font-bold tracking-wide hidden md:block" data-i18n="appTitle">AI 智創品牌健檢工作坊</h1>
+        </div>
+        <!-- 原本的語系切換按鈕已從此處移除，移至下方系統連線區塊 -->
+    </header>
+
+    <!-- 主要內容區 -->
+    <main class="flex-grow max-w-[1600px] mx-auto w-full px-4 pt-6 pb-16 flex flex-col md:flex-row gap-6">
+        
+        <!-- 側邊欄 (佔 3/12) -->
+        <aside class="w-full md:w-3/12 flex flex-col gap-6">
+            
+            <!-- TONY 顧問簡介卡片 (縮小為隱性點擊展開) -->
+            <details class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden group">
+                <summary class="p-3 flex justify-between items-center text-sm font-bold text-slate-700 cursor-pointer hover:bg-slate-50 transition-colors outline-none">
+                    <div class="flex items-center gap-3">
+                        <img src="https://i.postimg.cc/Gh8Zt7SX/S_56844323.jpg" alt="TONY Consultant" class="w-8 h-8 rounded-full object-cover border border-slate-200 shadow-sm">
+                        <span data-i18n="meetTony">認識 TONY 顧問</span>
+                    </div>
+                    <i class="fas fa-chevron-down text-slate-400 transition-transform group-open:rotate-180"></i>
+                </summary>
+                <div class="p-5 flex flex-col items-center text-center border-t border-slate-100 bg-slate-50/50">
+                    <img src="https://i.postimg.cc/Gh8Zt7SX/S_56844323.jpg" alt="TONY Consultant" class="w-16 h-16 rounded-full object-cover border-2 border-white shadow-sm mb-3">
+                    <h2 class="text-lg font-bold text-slate-800" data-i18n="tonyName">TONY 楊文澤 老師</h2>
+                    <p class="text-xs text-blue-600 font-medium mb-3 leading-relaxed" data-i18n="tonyTitle">資深數位行銷科技顧問<br>生成式 AI 創作者 / 創業導師</p>
+                    
+                    <div class="w-full text-left">
+                        <div class="mb-3">
+                            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1" data-i18n="currentJob">現職</h4>
+                            <ul class="text-xs text-slate-600 space-y-1" id="tonyCurrentJobs">
+                                <li>▪ 龍華科大 數位行銷講師</li>
+                                <li>▪ 智策慧 品牌行銷科技顧問</li>
+                            </ul>
+                        </div>
+                        
+                        <!-- 點擊展開的詳細資歷 -->
+                        <details class="group/inner border-t border-slate-200 pt-2 mt-2">
+                            <summary class="flex justify-between items-center text-xs font-bold text-blue-600 cursor-pointer hover:text-blue-800 transition-colors outline-none">
+                                <span data-i18n="viewDetails">查看詳細經歷與授課背景</span>
+                                <i class="fas fa-chevron-down transition-transform group-open/inner:rotate-180"></i>
+                            </summary>
+                            <div class="mt-3 space-y-4 animate-[fadeIn_0.3s_ease-in-out]">
+                                <div>
+                                    <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1 border-b border-slate-200 pb-1" data-i18n="experience">經歷 Experience</h4>
+                                    <ul class="text-xs text-slate-600 space-y-1" id="tonyExperience">
+                                        <li>▪ 脈動心聯股份有限公司 創辦人暨執行長</li>
+                                        <li>▪ 宏碁集團建碁 AOPEN 處長 / 品牌總監 / 發言人</li>
+                                        <li>▪ 台灣數位看板多媒體聯盟 (DSMA) 副會長</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1 border-b border-slate-200 pb-1" data-i18n="education">學歷 Education</h4>
+                                    <ul class="text-xs text-slate-600 space-y-1" id="tonyEducation">
+                                        <li>▪ 台大 EMBA 商學組</li>
+                                        <li>▪ 美國 Arizona State University 互動多媒體設計</li>
+                                        <li>▪ 北科大 工業設計</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1 border-b border-slate-200 pb-1" data-i18n="teachingExp">專家授課經歷</h4>
+                                    <ul class="text-xs text-slate-600 space-y-1 leading-relaxed" id="tonyTeaching">
+                                        <li>▪ CPC 生產力中心 顧問師班 / 創價能量 講師</li>
+                                        <li>▪ 台大 / 長榮 EMBA / 北科大 / 政大 / 世新 業師</li>
+                                        <li>▪ 2021 MarTech 行銷科技行銷長認證班 講師</li>
+                                        <li>▪ 2021/2024/2025 T大使與產業尖兵 講師</li>
+                                        <li>▪ 2025 新光人壽 AI 工具應用 企業內訓講師</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </details>
+                    </div>
+                </div>
+            </details>
+
+            <!-- 智創品牌模板 12 問 -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 sticky top-24">
+                <h3 class="font-bold text-slate-800 mb-4 px-2 flex items-center">
+                    <i class="fas fa-tasks text-blue-600 mr-2"></i> <span data-i18n="taskNavTitle">智創品牌模板 12 問</span>
+                </h3>
+                <nav class="space-y-1 max-h-[50vh] overflow-y-auto pr-2" id="taskNav">
+                    <!-- JS 動態生成任務列表 -->
+                </nav>
+            </div>
+        </aside>
+
+        <!-- 右側：工作區 (佔 9/12) -->
+        <div class="w-full md:w-9/12 flex flex-col gap-6">
+            
+            <!-- API Key 系統連線設定與語系切換區塊 -->
+            <div class="bg-slate-800 rounded-xl shadow-sm border border-slate-700 p-4 flex flex-col lg:flex-row items-start lg:items-center justify-between text-white gap-4">
+                <div class="flex items-center gap-3">
+                    <i class="fas fa-cogs text-blue-400 text-2xl"></i>
+                    <div>
+                        <h3 class="font-bold text-base" data-i18n="apiSettingsTitle">系統連線設定</h3>
+                        <p class="text-xs text-slate-400 mt-0.5" data-i18n="apiSettingsDesc">請輸入 Gemini API Key 以啟用 AI 顧問功能</p>
+                    </div>
+                </div>
+                
+                <div class="flex flex-wrap items-center gap-3 w-full lg:w-auto">
+                    <!-- 語系切換按鈕 (已移至此處，並優化樣式) -->
+                    <button onclick="toggleLanguage()" class="flex items-center justify-center gap-2 bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-lg text-sm font-medium transition-colors border border-slate-600 shadow-sm flex-grow sm:flex-grow-0">
+                        <i class="fas fa-globe text-blue-400"></i>
+                        <span id="langToggleText">English</span>
+                    </button>
+
+                    <!-- API 連線狀態與模型標註 -->
+                    <div class="flex items-center justify-center gap-2 px-3 py-2 bg-slate-900 rounded-lg border border-slate-600 whitespace-nowrap flex-grow sm:flex-grow-0">
+                        <span class="bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-[10px] px-1.5 py-0.5 rounded font-bold tracking-wider" title="Powered by Gemini 3.5 Flash">Gemini 3.5 Flash</span>
+                        <div class="h-3 w-px bg-slate-600 mx-1"></div>
+                        <div id="apiStatusLight" class="w-2.5 h-2.5 rounded-full bg-slate-500 shadow-inner transition-colors duration-300"></div>
+                        <span id="apiStatusText" class="text-xs text-slate-300 font-medium tracking-wide" data-i18n="statusNotSet">未設定</span>
+                    </div>
+                    
+                    <!-- API 輸入與按鈕 -->
+                    <div class="flex w-full sm:w-auto">
+                        <input type="password" id="apiKeyInput" data-i18n-placeholder="apiKeyPlaceholder" placeholder="輸入 API Key..." class="flex-grow sm:w-48 px-3 py-2 rounded-l-lg bg-slate-900 border border-slate-600 border-r-0 text-sm focus:outline-none focus:border-blue-500 transition-colors">
+                        <button onclick="saveApiKey()" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-r-lg text-sm font-bold transition-colors whitespace-nowrap shadow-sm" data-i18n="connectBtn">連線</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 品牌基本資料 (AI 診斷基礎) -->
+            <section class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 border-t-4 border-indigo-500">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-4">
+                    <div>
+                        <h2 class="text-xl font-bold text-slate-800 flex items-center">
+                            <i class="fas fa-building text-indigo-600 mr-2"></i> <span data-i18n="brandInfoTitle">品牌基本資料與全域 AI 啟動</span>
+                        </h2>
+                        <p class="text-sm text-slate-500 mt-1" data-i18n="brandInfoDesc">AI 將透過 Google 搜尋解析您的官方網站與補充資料，以獲得最佳顧問建議。</p>
+                    </div>
+                    <button onclick="globalAiScan()" id="btnGlobalScan" class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-lg text-sm font-bold shadow-md transition-all flex items-center whitespace-nowrap transform hover:scale-105">
+                        <i class="fas fa-globe mr-2"></i> <span data-i18n="btnGlobalScan">🚀 啟動全域 AI 掃描：連網搜尋並預填 12 問</span>
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1"><span data-i18n="labelBrandName">品牌名稱</span> <span class="text-red-500">*</span></label>
+                        <input type="text" id="base_brandName" value="SMEBig 智商戰" class="w-full rounded-lg border border-slate-300 p-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1"><span data-i18n="labelBrandUrl">官方網站</span> <span class="text-slate-400 text-xs" data-i18n="labelBrandUrlHint">(供 AI 搜尋)</span></label>
+                        <input type="url" id="base_brandUrl" placeholder="https://" value="https://smebig.com" class="w-full rounded-lg border border-slate-300 p-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1"><span data-i18n="labelIndustry">所屬產業</span> <span class="text-red-500">*</span></label>
+                        <input type="text" id="base_industry" value="企業管理顧問與行銷科技" class="w-full rounded-lg border border-slate-300 p-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1"><span data-i18n="labelProduct">主要產品 / 服務</span> <span class="text-red-500">*</span></label>
+                        <input type="text" id="base_product" value="AI 品牌戰略輔導、數位轉型顧問" class="w-full rounded-lg border border-slate-300 p-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+                    </div>
+                </div>
+
+                <!-- 補充網頁連結與多模態檔案上傳區塊 -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 pt-4 border-t border-slate-100">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1"><span data-i18n="labelExtraUrl">補充網頁連結</span> <span class="text-slate-400 text-xs" data-i18n="labelExtraUrlHint">(選填，如對手網站)</span></label>
+                        <input type="url" id="base_extraUrl" placeholder="https://" class="w-full rounded-lg border border-slate-300 p-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1"><span data-i18n="labelUpload">多模態參考檔案上傳</span> <span class="text-slate-400 text-xs" data-i18n="labelUploadHint">(支援文檔、圖片、音檔)</span></label>
+                        <div class="flex items-center justify-center w-full">
+                            <label class="flex flex-col items-center justify-center w-full h-20 border-2 border-slate-300 border-dashed rounded-lg cursor-pointer bg-slate-50 hover:bg-slate-100 transition-colors">
+                                <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                    <i class="fas fa-cloud-upload-alt text-xl text-slate-400 mb-1"></i>
+                                    <p class="text-xs text-slate-500" data-i18n="uploadInstruction">點擊上傳品牌相關參考檔案</p>
+                                </div>
+                                <input type="file" id="fileUpload" multiple accept=".txt,.doc,.docx,.pdf,.xls,.xlsx,.csv,image/*,audio/*" onchange="handleFileUpload(event)" class="hidden" />
+                            </label>
+                        </div>
+                        <div id="fileList" class="mt-2 space-y-1 max-h-24 overflow-y-auto"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 左右分欄工作台 -->
+            <div class="flex flex-col lg:flex-row gap-6">
+                
+                <!-- 左側分欄：單一任務輸入區 -->
+                <section class="w-full lg:w-7/12 flex flex-col gap-4">
+                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 border-t-4 border-blue-600">
+                        
+                        <div class="mb-6 pb-4 border-b border-slate-100">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <span class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded font-bold mb-2" data-i18n="currentTaskBadge">目前任務</span>
+                                    <h2 class="text-2xl font-bold text-slate-800 mb-1" id="taskTitle">Loading...</h2>
+                                    <p class="text-sm text-slate-500 flex items-center" id="taskVideo">
+                                        <i class="fab fa-youtube text-red-500 mr-2"></i> <span data-i18n="videoLabel">搭配影片：</span> <span id="videoTitleContent">Loading...</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- JS 動態表單渲染區 -->
+                        <div id="dynamicFormArea" class="space-y-4 mb-6 p-4 bg-slate-50 rounded-lg border border-slate-200 shadow-inner">
+                            <!-- Input fields will be injected here -->
+                        </div>
+
+                        <!-- 任務操作按鈕 -->
+                        <div class="flex flex-col gap-3 mb-6">
+                            <div class="flex gap-2">
+                                <button onclick="draftCurrentTask()" id="btnDraft" class="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-4 py-2.5 rounded-lg text-sm font-bold shadow-sm flex items-center justify-center transition-all" title="讀取目前輸入內容，進行擴寫與優化">
+                                    <i class="fas fa-magic mr-2"></i> <span data-i18n="btnDraft">✨ AI 深度優化與擴寫本區</span>
+                                </button>
+                                <button onclick="askConsultant()" id="btnQuestion" class="flex-1 bg-white border border-slate-300 text-slate-700 hover:bg-slate-50 px-4 py-2.5 rounded-lg text-sm font-bold shadow-sm flex items-center justify-center transition-colors">
+                                    <i class="fas fa-user-tie mr-2"></i> <span data-i18n="btnQuestion">💡 產生 TONY 顧問深度追問</span>
+                                </button>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="exportCurrentTask()" class="w-full bg-slate-100 text-slate-700 border border-slate-300 hover:bg-slate-200 px-4 py-3 rounded-lg text-sm font-bold shadow-sm flex items-center justify-center transition-colors whitespace-nowrap">
+                                    <i class="fas fa-file-word mr-2"></i> <span data-i18n="btnExportTask">匯出本區任務內容 (Word)</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- AI 顧問對話與狀態面板 -->
+                        <div class="bg-slate-800 text-slate-100 rounded-lg p-5 shadow-inner">
+                            <div class="flex justify-between items-center mb-3 border-b border-slate-700 pb-2">
+                                <h3 class="text-sm font-bold text-blue-400 flex items-center">
+                                    <i class="fas fa-robot mr-2"></i> <span data-i18n="aiPanelTitle">TONY 顧問對話與系統狀態區</span>
+                                </h3>
+                                <button onclick="exportAiReply()" class="text-xs bg-slate-700 hover:bg-slate-600 px-2 py-1 rounded text-slate-200 transition-colors flex items-center">
+                                    <i class="fas fa-download mr-1"></i> <span data-i18n="btnExportReply">匯出追問</span>
+                                </button>
+                            </div>
+                            <div id="aiReplyContent" class="text-sm leading-relaxed opacity-90 ai-markdown text-slate-300 min-h-[60px]">
+                                <!-- 預設提示內容將在 JS 中根據語系生成 -->
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- 右側分欄：品牌成功手冊 (Brand Manual) -->
+                <section class="w-full lg:w-5/12 flex flex-col h-full">
+                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 flex flex-col h-[800px] sticky top-24">
+                        
+                        <div class="p-4 border-b border-slate-200 bg-slate-50 rounded-t-xl">
+                            <div class="flex justify-between items-center mb-3">
+                                <div>
+                                    <h3 class="font-bold text-slate-800 flex items-center">
+                                        <i class="fas fa-book-open text-blue-600 mr-2"></i> <span data-i18n="manualTitle">品牌成功手冊</span>
+                                    </h3>
+                                    <p class="text-xs text-slate-500 mt-1" data-i18n="manualDesc">經 AI 轉化與整合的最終心血結晶</p>
+                                </div>
+                                <button onclick="exportManual()" class="bg-slate-700 hover:bg-slate-800 text-white px-3 py-1.5 rounded text-sm font-medium shadow-sm transition-colors flex items-center">
+                                    <i class="fas fa-file-word mr-1"></i> <span data-i18n="btnExportManual">匯出 Word</span>
+                                </button>
+                            </div>
+                            <!-- 全域大腦整合手冊按鈕 -->
+                            <button onclick="generateFullManual()" id="btnGenerateManual" class="w-full bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white px-3 py-2.5 rounded-lg text-sm font-bold shadow-md transition-all flex items-center justify-center transform hover:-translate-y-0.5 animate-pulse">
+                                <i class="fas fa-brain mr-2"></i> <span data-i18n="btnGenerateManual">✨ AI 智能彙整：全局整合自動撰寫全本手冊</span>
+                            </button>
+                        </div>
+
+                        <!-- 手冊內容編輯區 -->
+                        <div class="p-4 overflow-y-auto flex-grow space-y-4 text-sm bg-slate-100/50" id="manualArea">
+                            <!-- JS 動態生成手冊章節 -->
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- 底部版權宣告 (雙方協作聲明) -->
+    <footer class="bg-slate-900 text-slate-400 py-6 px-4 text-center text-xs mt-auto border-t border-slate-800">
+        <div class="max-w-4xl mx-auto space-y-1.5 leading-relaxed">
+            <p><strong data-i18n="footerDesign">AI 系統規劃與平台設計</strong>：<span data-i18n="footerCopyright">版權所有 © 2026 TONY STUDIO (楊文澤 顧問) All Rights Reserved.</span></p>
+            <p><strong data-i18n="footerMethod">品牌輔導方法論</strong>：<span data-i18n="footerPartner">授權合作自 智策慧品牌顧問公司。</span></p>
+            <p class="text-slate-500 mt-2" data-i18n="footerWarning">本平台為專屬協作環境，未經授權請勿重製或用於商業用途。</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript 邏輯：資料連動與 API 呼叫 -->
+    <script>
+        let currentLang = 'zh'; // 'zh' or 'en'
+        let userApiKey = "";
+        let uploadedFiles = []; 
+        
+        // --- 語言字典 (i18n) ---
+        const i18n = {
+            zh: {
+                appTitle: "AI 智創品牌健檢工作坊",
+                meetTony: "認識 TONY 顧問",
+                tonyName: "TONY 楊文澤 老師",
+                tonyTitle: "資深數位行銷科技顧問<br>生成式 AI 創作者 / 創業導師",
+                currentJob: "現職",
+                viewDetails: "查看詳細經歷與授課背景",
+                experience: "經歷 Experience",
+                education: "學歷 Education",
+                teachingExp: "專家授課經歷",
+                taskNavTitle: "智創品牌模板 12 問",
+                apiSettingsTitle: "系統連線設定",
+                apiSettingsDesc: "請輸入 Gemini API Key 以啟用 AI 顧問功能",
+                statusNotSet: "未設定",
+                apiKeyPlaceholder: "輸入 API Key...",
+                connectBtn: "連線",
+                brandInfoTitle: "品牌基本資料與全域 AI 啟動",
+                brandInfoDesc: "AI 將透過 Google 搜尋解析您的官方網站與補充資料，以獲得最佳顧問建議。",
+                btnGlobalScan: "🚀 啟動全域 AI 掃描：連網搜尋並預填 12 問",
+                labelBrandName: "品牌名稱",
+                labelBrandUrl: "官方網站",
+                labelBrandUrlHint: "(供 AI 搜尋)",
+                labelIndustry: "所屬產業",
+                labelProduct: "主要產品 / 服務",
+                labelExtraUrl: "補充網頁連結",
+                labelExtraUrlHint: "(選填，如對手網站)",
+                labelUpload: "多模態參考檔案上傳",
+                labelUploadHint: "(支援文檔、圖片、音檔)",
+                uploadInstruction: "點擊上傳品牌相關參考檔案",
+                currentTaskBadge: "目前任務",
+                videoLabel: "搭配影片：",
+                btnDraft: "✨ AI 深度優化與擴寫本區",
+                btnQuestion: "💡 產生 TONY 顧問深度追問",
+                btnExportTask: "匯出本區任務內容 (Word)",
+                aiPanelTitle: "TONY 顧問對話與系統狀態區",
+                btnExportReply: "匯出追問",
+                manualTitle: "品牌成功手冊",
+                manualDesc: "經 AI 轉化與整合的最終心血結晶",
+                btnExportManual: "匯出 Word",
+                btnGenerateManual: "✨ AI 智能彙整：全局整合自動撰寫全本手冊",
+                footerDesign: "AI 系統規劃與平台設計",
+                footerCopyright: "版權所有 © 2026 TONY STUDIO (楊文澤 顧問) All Rights Reserved.",
+                footerMethod: "品牌輔導方法論",
+                footerPartner: "授權合作自 智策慧品牌顧問公司。",
+                footerWarning: "本平台為專屬協作環境，未經授權請勿重製或用於商業用途。",
+                aiReplyDefault: `<p>您好！這裡為您說明兩種 AI 功能的差異：</p>
+                                <ul class="list-disc pl-5 mt-2 space-y-1 text-slate-400 text-xs">
+                                    <li><strong class="text-indigo-400">🚀 全域 AI 掃描</strong>：適合完全空白時，AI 幫您預填 12 問草稿。</li>
+                                    <li><strong class="text-blue-400">✨ AI 深度優化本區</strong>：AI 會讀取您的片段文字，將其擴寫、潤飾與專業化。</li>
+                                </ul>
+                                <p class="text-emerald-400 text-xs mt-2 pt-2 border-t border-slate-700"><i class="fas fa-info-circle mr-1"></i> 完成左側 12 問素材後，請點擊右上角的「✨ AI 智能彙整」，系統會全局融合並為您自動撰寫整本品牌手冊！</p>`,
+                inputPlaceholder: "等待 AI 預填或手動輸入...",
+                manualPlaceholder: "可在此手動編輯，或點擊上方「AI 智能彙整」自動生成..."
+            },
+            en: {
+                appTitle: "BrandBase AI Discovery Workshop",
+                meetTony: "Meet Consultant TONY",
+                tonyName: "TONY Yang",
+                tonyTitle: "Senior Digital MarTech Consultant<br>GenAI Creator / Startup Mentor",
+                currentJob: "Current Positions",
+                viewDetails: "View Detailed Experience & Teaching Background",
+                experience: "Experience",
+                education: "Education",
+                teachingExp: "Expert Teaching Experience",
+                taskNavTitle: "12-Question Brand Template",
+                apiSettingsTitle: "System Connection",
+                apiSettingsDesc: "Enter Gemini API Key to enable AI Consultant features",
+                statusNotSet: "Not Set",
+                apiKeyPlaceholder: "Enter API Key...",
+                connectBtn: "Connect",
+                brandInfoTitle: "Brand Basics & Global AI Scan",
+                brandInfoDesc: "AI will analyze your official website and extra data via Google Search for optimal advice.",
+                btnGlobalScan: "🚀 Start Global AI Scan: Search & Pre-fill 12 Questions",
+                labelBrandName: "Brand Name",
+                labelBrandUrl: "Official Website",
+                labelBrandUrlHint: "(For AI Search)",
+                labelIndustry: "Industry",
+                labelProduct: "Core Products / Services",
+                labelExtraUrl: "Additional URLs",
+                labelExtraUrlHint: "(Optional, e.g. Competitors)",
+                labelUpload: "Multimodal File Upload",
+                labelUploadHint: "(Docs, Images, Audio supported)",
+                uploadInstruction: "Click to upload brand-related reference files",
+                currentTaskBadge: "Current Task",
+                videoLabel: "Related Video: ",
+                btnDraft: "✨ AI Deep Optimize & Expand Section",
+                btnQuestion: "💡 Generate TONY's Deep Probing Questions",
+                btnExportTask: "Export Task Content (Word)",
+                aiPanelTitle: "TONY Consultant Dialog & Status",
+                btnExportReply: "Export Questions",
+                manualTitle: "Brand Success Manual",
+                manualDesc: "The final crystallization of AI transformation and integration",
+                btnExportManual: "Export to Word",
+                btnGenerateManual: "✨ AI Smart Integration: Auto-write Full Manual",
+                footerDesign: "AI System Architecture & Platform Design",
+                footerCopyright: "Copyright © 2026 TONY STUDIO. All Rights Reserved.",
+                footerMethod: "Brand Consulting Methodology",
+                footerPartner: "Authorized partnership with Swot Consulting Co., Ltd.",
+                footerWarning: "This platform is an exclusive collaboration environment. Unauthorized reproduction or commercial use is prohibited.",
+                aiReplyDefault: `<p>Hello! Here's the difference between the two AI features:</p>
+                                <ul class="list-disc pl-5 mt-2 space-y-1 text-slate-400 text-xs">
+                                    <li><strong class="text-indigo-400">🚀 Global AI Scan</strong>: Best when starting from scratch. AI drafts answers for all 12 questions.</li>
+                                    <li><strong class="text-blue-400">✨ AI Deep Optimize Section</strong>: AI reads your fragments and expands, polishes, and professionalizes them.</li>
+                                </ul>
+                                <p class="text-emerald-400 text-xs mt-2 pt-2 border-t border-slate-700"><i class="fas fa-info-circle mr-1"></i> After completing the 12 questions on the left, click "✨ AI Smart Integration" on the top right. The system will globally integrate and automatically write your entire brand manual!</p>`,
+                inputPlaceholder: "Waiting for AI or input manually...",
+                manualPlaceholder: "Edit manually here, or click 'AI Smart Integration' above to generate..."
+            }
+        };
+
+        const tonyLists = {
+            jobs: {
+                zh: ["▪ 龍華科大 數位行銷講師", "▪ 智策慧 品牌行銷科技顧問"],
+                en: ["▪ Lecturer in Digital Marketing, LHU", "▪ Brand MarTech Consultant, Swot Consulting"]
+            },
+            experience: {
+                zh: ["▪ 脈動心聯股份有限公司 創辦人暨執行長", "▪ 宏碁集團建碁 AOPEN 處長 / 品牌總監 / 發言人", "▪ 台灣數位看板多媒體聯盟 (DSMA) 副會長"],
+                en: ["▪ Founder & CEO, Pulse Link Co., Ltd.", "▪ Director / Brand Director / Spokesperson, AOPEN (Acer Group)", "▪ Vice President, DSMA Taiwan"]
+            },
+            education: {
+                zh: ["▪ 台大 EMBA 商學組", "▪ 美國 Arizona State University 互動多媒體設計", "▪ 北科大 工業設計"],
+                en: ["▪ EMBA, National Taiwan University", "▪ Interactive Multimedia Design, Arizona State University, USA", "▪ Industrial Design, NTUT"]
+            },
+            teaching: {
+                zh: ["▪ CPC 生產力中心 顧問師班 / 創價能量 講師", "▪ 台大 / 長榮 EMBA / 北科大 / 政大 / 世新 業師", "▪ 2021 MarTech 行銷科技行銷長認證班 講師", "▪ 2021/2024/2025 T大使與產業尖兵 講師", "▪ 2025 新光人壽 AI 工具應用 企業內訓講師"],
+                en: ["▪ Lecturer, Consultant Class, CPC", "▪ Industry Mentor at NTU / CJCU / NTUT / NCCU / SHU", "▪ Lecturer, 2021 MarTech CMO Certification", "▪ Lecturer, T-Ambassador & Industry Vanguard 2021/24/25", "▪ Corporate Trainer, AI Tool App, Shin Kong Life 2025"]
+            }
+        }
+
+        const manualChapters = [
+            { id: 1, title: { zh: "1. 品牌現況", en: "1. Brand Current Status" } }, 
+            { id: 2, title: { zh: "2. 品牌定位", en: "2. Brand Positioning" } },
+            { id: 3, title: { zh: "3. 目標客群", en: "3. Target Audience" } }, 
+            { id: 4, title: { zh: "4. 競爭品牌與市場差異", en: "4. Competitors & Market Differentiation" } },
+            { id: 5, title: { zh: "5. 品牌價值主張", en: "5. Brand Value Proposition" } }, 
+            { id: 6, title: { zh: "6. 品牌故事", en: "6. Brand Story" } },
+            { id: 7, title: { zh: "7. 行銷訊息與傳播策略", en: "7. Marketing Message & Comm. Strategy" } }, 
+            { id: 8, title: { zh: "8. 視覺方向", en: "8. Visual Direction" } },
+            { id: 9, title: { zh: "9. AI 工具應用建議", en: "9. AI Tool Application Suggestions" } }, 
+            { id: 10, title: { zh: "10. 90 天品牌升級行動計畫", en: "10. 90-Day Brand Upgrade Action Plan" } }
+        ];
+
+        const taskDefinitions = [
+            { 
+                id: 1, 
+                name: { zh: "品牌命名及品牌定位宣言", en: "Brand Naming & Positioning Declaration" }, 
+                video: { zh: "第1問｜品牌是什麼？", en: "Q1 | What is a Brand?" }, 
+                targetChapter: 2,
+                fields: [
+                    { key: 'market', label: { zh: '目標市場與其需要 *', en: 'Target Market & Needs *' }, type: 'textarea' },
+                    { key: 'product', label: { zh: '我們的品牌/產品 *', en: 'Our Brand/Product *' }, type: 'textarea' },
+                    { key: 'coreAbility', label: { zh: '核心能力 *', en: 'Core Capabilities *' }, type: 'textarea' },
+                    { key: 'offer', label: { zh: '能夠提供的 *', en: 'What We Can Offer *' }, type: 'textarea' }
+                ]
+            },
+            { 
+                id: 2, 
+                name: { zh: "品牌理念與品牌轉型", en: "Brand Philosophy & Transformation" }, 
+                video: { zh: "第4問｜品牌怎轉型？", en: "Q4 | How to Transform?" }, 
+                targetChapter: 1,
+                fields: [
+                    { key: 'philosophy', label: { zh: '我們 品牌理念是甚麼？ *', en: 'What is our Brand Philosophy? *' }, type: 'textarea' },
+                    { key: 'goal', label: { zh: '量or質化目標 *', en: 'Quant. or Qual. Goals *' }, type: 'textarea' },
+                    { key: 'enemy', label: { zh: '共同敵人 *', en: 'Common Enemy *' }, type: 'textarea' },
+                    { key: 'roleModel', label: { zh: '角色模範 *', en: 'Role Model *' }, type: 'textarea' }
+                ]
+            },
+            { 
+                id: 3, 
+                name: { zh: "品牌價值塑造", en: "Brand Value Creation" }, 
+                video: { zh: "第5問｜品牌怎賣貴？", en: "Q5 | How to Command Premium?" }, 
+                targetChapter: 5,
+                fields: [
+                    { key: 'values', label: { zh: '我們的價值觀 *', en: 'Our Values *' }, type: 'textarea' },
+                    { key: 'coreValue', label: { zh: '簡單一句話 描述核心價值 *', en: 'Core Value in One Sentence *' }, type: 'textarea' }
+                ]
+            },
+            { 
+                id: 4, 
+                name: { zh: "目標顧客 Persona", en: "Target Audience Persona" }, 
+                video: { zh: "第6問｜品牌找到人？", en: "Q6 | How to Find Customers?" }, 
+                targetChapter: 3,
+                fields: [
+                    { key: 'name', label: { zh: '名稱 *', en: 'Name *' }, type: 'text' },
+                    { key: 'basicInfo', label: { zh: '基本資料 *', en: 'Basic Info *' }, type: 'textarea' },
+                    { key: 'resume', label: { zh: '人物簡歷與特色 *', en: 'Profile & Traits *' }, type: 'textarea' },
+                    { key: 'likes', label: { zh: '喜歡的其他品牌 *', en: 'Other Liked Brands *' }, type: 'textarea' },
+                    { key: 'expectation', label: { zh: '對你的品牌的目標和期待 *', en: 'Goals & Expectations of your Brand *' }, type: 'textarea' },
+                    { key: 'painPoint', label: { zh: '對你的品牌的問題與挫折 *', en: 'Problems & Frustrations with your Brand *' }, type: 'textarea' }
+                ]
+            },
+            { 
+                id: 5, 
+                name: { zh: "品牌個性", en: "Brand Personality" }, 
+                video: { zh: "第8問｜品牌想好記？", en: "Q8 | How to be Memorable?" }, 
+                targetChapter: 6,
+                fields: [
+                    { key: 'personality1', label: { zh: '品牌個性1 *', en: 'Personality 1 *' }, type: 'textarea' },
+                    { key: 'personality2', label: { zh: '品牌個性2 *', en: 'Personality 2 *' }, type: 'textarea' },
+                    { key: 'personality3', label: { zh: '品牌個性3 *', en: 'Personality 3 *' }, type: 'textarea' },
+                    { key: 'personality4', label: { zh: '品牌個性4 *', en: 'Personality 4 *' }, type: 'textarea' },
+                    { key: 'personality5', label: { zh: '品牌個性5 *', en: 'Personality 5 *' }, type: 'textarea' }
+                ]
+            },
+            { 
+                id: 6, 
+                name: { zh: "品牌定位", en: "Brand Positioning" }, 
+                video: { zh: "第3問｜品牌怎定位？", en: "Q3 | How to Position?" }, 
+                targetChapter: 2,
+                fields: [
+                    { key: 'brandName', label: { zh: '品牌命名 *', en: 'Brand Naming *' }, type: 'textarea' },
+                    { key: 'intro', label: { zh: '品牌介紹（現在我是誰） *', en: 'Brand Intro (Who I am now) *' }, type: 'textarea' },
+                    { key: 'vision', label: { zh: '品牌願景（未來我要去哪） *', en: 'Brand Vision (Where I am going) *' }, type: 'textarea' },
+                    { key: 'coreValueDiff', label: { zh: '核心價值（顧客好處與他牌差異） *', en: 'Core Value (Benefits & Diff) *' }, type: 'textarea' },
+                    { key: 'personalityDiff', label: { zh: '品牌個性（擬人化、差異） *', en: 'Personality (Personification & Diff) *' }, type: 'textarea' },
+                    { key: 'positioning', label: { zh: '品牌定位 *', en: 'Brand Positioning *' }, type: 'textarea' },
+                    { key: 'identity', label: { zh: '品牌識別 *', en: 'Brand Identity *' }, type: 'textarea' }
+                ]
+            },
+            { 
+                id: 7, 
+                name: { zh: "品牌生命樹 / 基礎建構", en: "Brand Life Tree / Basics" }, 
+                video: { zh: "第2問｜品牌怎麼建？", en: "Q2 | How to Build?" }, 
+                targetChapter: 1,
+                fields: [
+                    { key: 'exposure', label: { zh: '曝光 *', en: 'Exposure *' }, type: 'textarea' },
+                    { key: 'discovery', label: { zh: '發現 *', en: 'Discovery *' }, type: 'textarea' },
+                    { key: 'consideration', label: { zh: '考慮 *', en: 'Consideration *' }, type: 'textarea' },
+                    { key: 'conversion', label: { zh: '轉換 *', en: 'Conversion *' }, type: 'textarea' },
+                    { key: 'retention', label: { zh: '留存 *', en: 'Retention *' }, type: 'textarea' },
+                    { key: 'return', label: { zh: '回流 *', en: 'Return *' }, type: 'textarea' }
+                ]
+            },
+            { 
+                id: 8, 
+                name: { zh: "自媒體獲客模式", en: "Self-Media Acquisition Model" }, 
+                video: { zh: "第7問｜品牌找新客？", en: "Q7 | Finding New Customers?" }, 
+                targetChapter: 7, 
+                fields: [
+                    { key: 'targetAudience', label: { zh: '目標顧客 *', en: 'Target Audience *' }, type: 'textarea' }, 
+                    { key: 'contentStory', label: { zh: '內容故事 *', en: 'Content Story *' }, type: 'textarea' }, 
+                    { key: 'mediaMarketing', label: { zh: '媒體行銷 *', en: 'Media Marketing *' }, type: 'textarea' }
+                ] 
+            },
+            { 
+                id: 9, 
+                name: { zh: "接觸點管理", en: "Touchpoint Management" }, 
+                video: { zh: "第10問｜品牌怎麼管？", en: "Q10 | How to Manage?" }, 
+                targetChapter: 7, 
+                fields: [
+                    { key: 'prePurchase', label: { zh: '購前觸點 *', en: 'Pre-Purchase Touchpoints *' }, type: 'textarea' }, 
+                    { key: 'inPurchase', label: { zh: '購中觸點 *', en: 'In-Purchase Touchpoints *' }, type: 'textarea' }, 
+                    { key: 'postPurchase', label: { zh: '購後觸點 *', en: 'Post-Purchase Touchpoints *' }, type: 'textarea' }
+                ] 
+            },
+            { 
+                id: 10, 
+                name: { zh: "M&M 內容行銷", en: "M&M Content Marketing" }, 
+                video: { zh: "第9問｜品牌想知名？", en: "Q9 | How to be Famous?" }, 
+                targetChapter: 7, 
+                fields: [
+                    { key: 'advice1', label: { zh: '建議 1 *', en: 'Advice 1 *' }, type: 'textarea' }, 
+                    { key: 'advice2', label: { zh: '建議 2 *', en: 'Advice 2 *' }, type: 'textarea' }, 
+                    { key: 'advice3', label: { zh: '建議 3 *', en: 'Advice 3 *' }, type: 'textarea' }
+                ] 
+            },
+            { 
+                id: 11, 
+                name: { zh: "品牌定價法 / 五感體驗", en: "Pricing / 5-Sense Experience" }, 
+                video: { zh: "第11問｜品牌沒毛利？", en: "Q11 | No Gross Margin?" }, 
+                targetChapter: 8, 
+                fields: [
+                    { key: 'visual', label: { zh: '視覺 *', en: 'Visual *' }, type: 'textarea' }, 
+                    { key: 'taste', label: { zh: '味覺 *', en: 'Taste *' }, type: 'textarea' }, 
+                    { key: 'hearing', label: { zh: '聽覺 *', en: 'Hearing *' }, type: 'textarea' },
+                    { key: 'smell', label: { zh: '嗅覺 *', en: 'Smell *' }, type: 'textarea' },
+                    { key: 'touch', label: { zh: '觸覺 *', en: 'Touch *' }, type: 'textarea' }
+                ] 
+            },
+            { 
+                id: 12, 
+                name: { zh: "品牌預算推廣", en: "Brand Budget Promotion" }, 
+                video: { zh: "第12問｜品牌沒預算？", en: "Q12 | No Budget?" }, 
+                targetChapter: 10, 
+                fields: [
+                    { key: 'goal', label: { zh: '行銷目標 *', en: 'Marketing Goal *' }, type: 'textarea' }, 
+                    { key: 'research', label: { zh: '戰情研究 *', en: 'Situation Research *' }, type: 'textarea' }, 
+                    { key: 'audience', label: { zh: '目標對象 *', en: 'Target Audience *' }, type: 'textarea' },
+                    { key: 'method', label: { zh: '實施方法 *', en: 'Implementation Method *' }, type: 'textarea' },
+                    { key: 'period', label: { zh: '實施期間 *', en: 'Implementation Period *' }, type: 'textarea' },
+                    { key: 'team', label: { zh: '執行團隊 *', en: 'Execution Team *' }, type: 'textarea' },
+                    { key: 'budget', label: { zh: '所需經費 *', en: 'Required Budget *' }, type: 'textarea' },
+                    { key: 'roi', label: { zh: '預期效益 *', en: 'Expected ROI *' }, type: 'textarea' }
+                ] 
+            }
+        ];
+
+        let currentState = { currentTaskId: 1, taskData: {}, manualData: {} };
+        taskDefinitions.forEach(t => currentState.taskData[t.id] = {});
+        manualChapters.forEach(c => currentState.manualData[c.id] = "");
+
+        function init() {
+            applyLanguage();
+            renderNav();
+            renderManual();
+            selectTask(1);
+            // 預設填寫 AI 回覆區
+            document.getElementById('aiReplyContent').innerHTML = i18n[currentLang].aiReplyDefault;
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'zh' ? 'en' : 'zh';
+            document.getElementById('langToggleText').innerText = currentLang === 'zh' ? 'English' : '中文';
+            applyLanguage();
+            renderNav();
+            renderManual();
+            selectTask(currentState.currentTaskId);
+            
+            // 如果連線狀態未設定，更新文字
+            if(!userApiKey) {
+                document.getElementById('apiStatusText').innerText = i18n[currentLang].statusNotSet;
+            }
+            // 簡單重置 AI 回覆區為預設提示
+            document.getElementById('aiReplyContent').innerHTML = i18n[currentLang].aiReplyDefault;
+        }
+
+        function applyLanguage() {
+            // 替換一般文字
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (i18n[currentLang][key]) {
+                    el.innerHTML = i18n[currentLang][key]; // 用 innerHTML 支援換行標籤
+                }
+            });
+            // 替換 Placeholder
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (i18n[currentLang][key]) {
+                    el.placeholder = i18n[currentLang][key];
+                }
+            });
+
+            // 更新 TONY 老師的列表內容
+            const updateList = (id, dataObj) => {
+                const el = document.getElementById(id);
+                if(el) {
+                    el.innerHTML = dataObj[currentLang].map(item => `<li>${item}</li>`).join('');
+                }
+            };
+            updateList('tonyCurrentJobs', tonyLists.jobs);
+            updateList('tonyExperience', tonyLists.experience);
+            updateList('tonyEducation', tonyLists.education);
+            updateList('tonyTeaching', tonyLists.teaching);
+            
+            // 更新 Title
+            document.title = i18n[currentLang].appTitle;
+            document.documentElement.lang = currentLang === 'zh' ? 'zh-TW' : 'en';
+        }
+
+        function renderNav() {
+            const navContainer = document.getElementById('taskNav');
+            navContainer.innerHTML = '';
+            taskDefinitions.forEach(task => {
+                const isActive = task.id === currentState.currentTaskId;
+                const activeClass = isActive ? 'bg-blue-50 border-blue-500 text-blue-700 font-bold' : 'border-transparent text-slate-600 hover:bg-slate-100';
+                const num = task.id.toString().padStart(2, '0');
+                const taskName = task.name[currentLang];
+                navContainer.insertAdjacentHTML('beforeend', `
+                    <button onclick="selectTask(${task.id})" class="w-full text-left px-4 py-2.5 rounded-lg border-l-4 transition-all text-sm flex items-center ${activeClass}">
+                        <span class="w-6 h-6 rounded-full ${isActive ? 'bg-blue-600 text-white' : 'bg-slate-200 text-slate-500'} flex items-center justify-center text-xs mr-3 flex-shrink-0">${num}</span>
+                        <span class="truncate">${taskName}</span>
+                    </button>
+                `);
+            });
+        }
+
+        function renderManual() {
+            const manualArea = document.getElementById('manualArea');
+            manualArea.innerHTML = '';
+            const placeholderText = i18n[currentLang].manualPlaceholder;
+            manualChapters.forEach(chapter => {
+                const val = currentState.manualData[chapter.id] || '';
+                const titleText = chapter.title[currentLang];
+                manualArea.insertAdjacentHTML('beforeend', `
+                    <div class="bg-white p-4 rounded border border-slate-200 shadow-sm transition-all duration-300" id="manual_ch_${chapter.id}">
+                        <h4 class="font-bold text-slate-700 mb-2 border-b border-slate-100 pb-2">${titleText}</h4>
+                        <textarea class="w-full h-32 border border-slate-200 rounded p-3 text-sm focus:ring-2 focus:ring-emerald-500 text-slate-700 bg-slate-50/50 leading-relaxed" 
+                            onchange="currentState.manualData[${chapter.id}] = this.value"
+                            placeholder="${placeholderText}">${val}</textarea>
+                    </div>
+                `);
+            });
+        }
+
+        function selectTask(taskId) {
+            currentState.currentTaskId = taskId;
+            renderNav();
+            
+            const task = taskDefinitions.find(t => t.id === taskId);
+            const num = taskId.toString().padStart(2, '0');
+            const taskLabel = currentLang === 'zh' ? `任務 #${num}` : `Task #${num}`;
+            
+            document.getElementById('taskTitle').innerText = `${taskLabel}：${task.name[currentLang]}`;
+            document.getElementById('videoTitleContent').innerText = task.video[currentLang];
+            
+            const formArea = document.getElementById('dynamicFormArea');
+            formArea.innerHTML = '';
+            
+            const placeholderText = i18n[currentLang].inputPlaceholder;
+
+            task.fields.forEach(field => {
+                const value = currentState.taskData[taskId][field.key] || '';
+                const baseClasses = "w-full rounded border border-slate-300 p-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors";
+                const labelText = field.label[currentLang];
+                
+                let inputHtml = field.type === 'textarea' 
+                    ? `<textarea id="field_${field.key}" class="${baseClasses} h-24 resize-y" placeholder="${placeholderText}" onchange="saveTaskField(${taskId}, '${field.key}', this.value)">${value}</textarea>`
+                    : `<input type="text" id="field_${field.key}" class="${baseClasses}" placeholder="${placeholderText}" value="${value}" onchange="saveTaskField(${taskId}, '${field.key}', this.value)">`;
+
+                formArea.insertAdjacentHTML('beforeend', `
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-2">${labelText}</label>
+                        ${inputHtml}
+                    </div>
+                `);
+            });
+        }
+
+        function saveTaskField(taskId, key, value) {
+            currentState.taskData[taskId][key] = value;
+        }
+
+        function handleFileUpload(event) {
+            const files = event.target.files;
+            for(let i=0; i<files.length; i++) {
+                uploadedFiles.push(files[i]);
+            }
+            renderFileList();
+            event.target.value = '';
+        }
+
+        function removeFile(index) {
+            uploadedFiles.splice(index, 1);
+            renderFileList();
+        }
+
+        function renderFileList() {
+            const list = document.getElementById('fileList');
+            list.innerHTML = '';
+            uploadedFiles.forEach((f, i) => {
+                list.innerHTML += `<div class="flex justify-between items-center bg-white px-2 py-1.5 rounded text-xs text-slate-600 border border-slate-200">
+                    <span class="truncate max-w-[200px]"><i class="fas fa-file-alt mr-1 text-slate-400"></i> ${f.name}</span>
+                    <button onclick="removeFile(${i})" class="text-red-400 hover:text-red-600 ml-2" title="Remove"><i class="fas fa-times"></i></button>
+                </div>`;
+            });
+        }
+
+        function saveApiKey() {
+            userApiKey = document.getElementById('apiKeyInput').value.trim();
+            const statusLight = document.getElementById('apiStatusLight');
+            const statusText = document.getElementById('apiStatusText');
+            const out = document.getElementById('aiReplyContent');
+            
+            if(userApiKey) {
+                statusLight.className = "w-2.5 h-2.5 rounded-full status-connected transition-colors duration-300";
+                const msgConnected = currentLang === 'zh' ? "AI 已連線" : "Connected";
+                const msgSuccess = currentLang === 'zh' 
+                    ? "API Key 設定成功，連線正常！您可以開始使用 AI 診斷功能了。" 
+                    : "API Key configured successfully! You can now use AI features.";
+                statusText.innerText = msgConnected;
+                statusText.className = "text-xs text-emerald-400 font-bold tracking-wide";
+                out.innerHTML = `<p class="text-emerald-400"><i class="fas fa-check-circle mr-2"></i> ${msgSuccess}</p>`;
+            } else {
+                statusLight.className = "w-2.5 h-2.5 rounded-full bg-slate-500 shadow-inner transition-colors duration-300";
+                statusText.innerText = i18n[currentLang].statusNotSet;
+                statusText.className = "text-xs text-slate-300 font-medium tracking-wide";
+                alert(currentLang === 'zh' ? '⚠️ 請輸入有效的 API Key' : '⚠️ Please enter a valid API Key');
+            }
+        }
+
+        function getBaseContext() {
+            const labels = currentLang === 'zh' ? 
+                ['品牌名稱', '官方網站', '所屬產業', '產品服務', '補充參考網頁', '使用者已上傳的參考檔案'] : 
+                ['Brand Name', 'Official Website', 'Industry', 'Products/Services', 'Extra URL', 'Uploaded Files'];
+
+            let context = `
+- ${labels[0]}：${document.getElementById('base_brandName').value}
+- ${labels[1]}：${document.getElementById('base_brandUrl').value}
+- ${labels[2]}：${document.getElementById('base_industry').value}
+- ${labels[3]}：${document.getElementById('base_product').value}`;
+            
+            const extraUrl = document.getElementById('base_extraUrl').value;
+            if (extraUrl) context += `\n- ${labels[4]}：${extraUrl}`;
+            if (uploadedFiles.length > 0) {
+                const fileNames = uploadedFiles.map(f => f.name).join(', ');
+                context += `\n- ${labels[5]}：${fileNames}`;
+            }
+            return context;
+        }
+
+        function extractSafeJSON(text) {
+            try {
+                let cleanText = text.replace(/```json/gi, '').replace(/```/g, '').trim();
+                return JSON.parse(cleanText);
+            } catch (e1) {
+                try {
+                    const match = text.match(/\{[\s\S]*\}/);
+                    if (match) {
+                        let jsonStr = match[0];
+                        try { return JSON.parse(jsonStr); } 
+                        catch (e2) {
+                            let flatJsonStr = jsonStr.replace(/[\n\r\t]+/g, ' ');
+                            return JSON.parse(flatJsonStr);
+                        }
+                    }
+                } catch (e3) { console.error("Extract failed", e3); }
+                console.error("JSON Error:", text);
+                return null;
+            }
+        }
+
+        async function callGemini(promptText) {
+            if (!userApiKey) {
+                alert(currentLang === 'zh' ? '⚠️ 請先在畫面上方輸入 Gemini API Key！' : '⚠️ Please set your Gemini API Key first!');
+                return null;
+            }
+            try {
+                const payload = { 
+                    contents: [{ parts: [{ text: promptText }] }],
+                    tools: [{ "google_search": {} }] 
+                };
+
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${userApiKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+                if (result.error) throw new Error(result.error.message);
+                return result.candidates[0].content.parts[0].text;
+            } catch (error) {
+                throw error;
+            }
+        }
+
+        // 1. 全域掃描預填 12 問
+        async function globalAiScan() {
+            const btn = document.getElementById('btnGlobalScan');
+            const out = document.getElementById('aiReplyContent');
+            if (!userApiKey) { alert(currentLang === 'zh' ? "請先設定 API Key" : "Please set API Key"); return; }
+
+            const msgLoading = currentLang === 'zh' ? "正在連網搜尋與分析..." : "Searching & Analyzing...";
+            const msgParsing = currentLang === 'zh' ? "正在解析官網，準備生成 12 問草稿 (約 20~30 秒)..." : "Parsing website, generating 12 questions draft (20-30s)...";
+            
+            btn.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i> ${msgLoading}`;
+            btn.disabled = true;
+            out.innerHTML = `<p class="text-indigo-300"><i class="fas fa-satellite-dish fa-pulse mr-2"></i> ${msgParsing}</p>`;
+
+            const promptLang = currentLang === 'zh' ? '請用繁體中文回答' : 'Please answer in English';
+            const prompt = `你是資深品牌顧問 TONY 老師。基於資料：${getBaseContext()}。
+請優先透過 Google 搜尋解析官方網站內容。為我草擬品牌【完整 12 個任務】的內部輸入欄位草稿。精簡扼要，直指核心。
+${promptLang}。
+必須嚴格回傳 JSON 格式字串，絕不包含說明文字，絕對禁止在 JSON 內容中直接換行，若需換行請使用 \\n 字元。格式：
+{
+  "1": { "market": "...", "product": "...", "coreAbility": "...", "offer": "..." },
+  "2": { "philosophy": "...", "goal": "...", "enemy": "...", "roleModel": "..." },
+  "3": { "values": "...", "coreValue": "..." },
+  "4": { "name": "...", "basicInfo": "...", "resume": "...", "likes": "...", "expectation": "...", "painPoint": "..." },
+  "5": { "personality1": "...", "personality2": "...", "personality3": "...", "personality4": "...", "personality5": "..." },
+  "6": { "brandName": "...", "intro": "...", "vision": "...", "coreValueDiff": "...", "personalityDiff": "...", "positioning": "...", "identity": "..." },
+  "7": { "exposure": "...", "discovery": "...", "consideration": "...", "conversion": "...", "retention": "...", "return": "..." },
+  "8": { "targetAudience": "...", "contentStory": "...", "mediaMarketing": "..." },
+  "9": { "prePurchase": "...", "inPurchase": "...", "postPurchase": "..." },
+  "10": { "advice1": "...", "advice2": "...", "advice3": "..." },
+  "11": { "visual": "...", "taste": "...", "hearing": "...", "smell": "...", "touch": "..." },
+  "12": { "goal": "...", "research": "...", "audience": "...", "method": "...", "period": "...", "team": "...", "budget": "...", "roi": "..." }
+}`;
+
+            try {
+                const responseText = await callGemini(prompt);
+                const aiData = extractSafeJSON(responseText);
+                if (aiData) {
+                    for (const taskId in aiData) {
+                        currentState.taskData[taskId] = { ...currentState.taskData[taskId], ...aiData[taskId] };
+                    }
+                    const msgSuccess = currentLang === 'zh' ? "全域掃描完成！12 問已預填。" : "Global scan complete! 12 questions pre-filled.";
+                    out.innerHTML = `<p class="text-emerald-400 font-bold"><i class="fas fa-check-circle mr-2"></i> ${msgSuccess}</p>`;
+                    selectTask(currentState.currentTaskId); 
+                } else throw new Error("JSON Parse Failed");
+            } catch (error) {
+                out.innerHTML = `<p class="text-red-400"><i class="fas fa-times-circle mr-2"></i> Error: ${error.message}</p>`;
+            } finally {
+                btn.innerHTML = `<i class="fas fa-globe mr-2"></i> <span>${i18n[currentLang].btnGlobalScan}</span>`;
+                btn.disabled = false;
+            }
+        }
+
+        // 2. 單一任務深度優化
+        async function draftCurrentTask() {
+            const taskId = currentState.currentTaskId;
+            const task = taskDefinitions.find(t => t.id === taskId);
+            const btn = document.getElementById('btnDraft');
+            const out = document.getElementById('aiReplyContent');
+            const originalText = btn.innerHTML;
+            
+            const msgLoading = currentLang === 'zh' ? "讀取內容並深度優化中..." : "Reading and deeply optimizing...";
+            btn.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i> ${msgLoading}`;
+            btn.disabled = true;
+
+            let currentInput = "";
+            task.fields.forEach(f => {
+                const val = document.getElementById(`field_${f.key}`).value;
+                if(val) currentInput += `- ${f.label[currentLang]}: ${val}\n`;
+            });
+
+            const fieldKeys = task.fields.map(f => `"${f.key}": "..."`).join(', ');
+            
+            const promptLang = currentLang === 'zh' ? '請用繁體中文回答' : 'Please answer in English';
+            const prompt = `基於品牌資料：${getBaseContext()}。目前任務：${task.name[currentLang]}。
+【使用者目前的想法】：\n${currentInput ? currentInput : "(Empty)"}
+【重要指令】：你是 TONY 老師。請「吸收使用者的想法」，結合網路搜尋，將其「深度優化、專業化」。${promptLang}。
+嚴格回傳 JSON，不加廢話，絕對禁止直接換行（請用 \\n）。格式：\n{ ${fieldKeys} }`;
+
+            try {
+                const responseText = await callGemini(prompt);
+                const aiData = extractSafeJSON(responseText);
+                if (aiData) {
+                    Object.keys(aiData).forEach(key => {
+                        const inputEl = document.getElementById(`field_${key}`);
+                        if (inputEl) {
+                            inputEl.value = aiData[key];
+                            inputEl.classList.remove('ai-filled'); void inputEl.offsetWidth; inputEl.classList.add('ai-filled');
+                            saveTaskField(taskId, key, aiData[key]);
+                        }
+                    });
+                    const msgSuccess = currentLang === 'zh' 
+                        ? "已為您完成專家級擴寫與優化！請繼續完成其他任務，最後由右側「AI 智能彙整」產出全本手冊。"
+                        : "Expert expansion and optimization complete! Continue with other tasks and generate the manual later.";
+                    out.innerHTML = `<p class="text-emerald-400 font-bold"><i class="fas fa-check-circle mr-1"></i> ${msgSuccess}</p>`;
+                } else throw new Error("JSON Parse Failed");
+            } catch (error) {
+                out.innerHTML = `<p class="text-red-400">Error: ${error.message}</p>`;
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        }
+
+        // 3. 讓 AI 自動大腦整合，一鍵撰寫全本手冊
+        async function generateFullManual() {
+            const btn = document.getElementById('btnGenerateManual');
+            const out = document.getElementById('aiReplyContent');
+            if (!userApiKey) { alert(currentLang === 'zh' ? "請先設定 API Key" : "Please set API Key"); return; }
+
+            btn.classList.remove('animate-pulse');
+            const msgLoading = currentLang === 'zh' ? "AI 全局大腦運轉中，正在撰寫 10 大章節 (約 30 秒)..." : "AI Global Brain running, writing 10 chapters (30s)...";
+            btn.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i> ${msgLoading}`;
+            btn.disabled = true;
+
+            let allTasksData = "";
+            taskDefinitions.forEach(t => {
+                allTasksData += `\n【Task: ${t.name[currentLang]}】\n`;
+                t.fields.forEach(f => {
+                    const val = currentState.taskData[t.id][f.key];
+                    if(val) allTasksData += `- ${f.label[currentLang]}: ${val}\n`;
+                });
+            });
+
+            const promptLang = currentLang === 'zh' ? '請用流暢專業的繁體中文撰寫' : 'Please write in fluent, professional English';
+            const prompt = `你現在是系統資料產出端 API。請扮演資深品牌顧問 TONY 老師。
+請根據客戶的【品牌基本資料】：${getBaseContext()}
+以及他們在 12 個診斷任務中填寫的【素材庫】：${allTasksData}
+
+【重要指令】：請為客戶撰寫一份完整的「品牌成功手冊」。發揮 AI 強大的「全局推論與轉化」能力，將零散的資料融合為流暢的專業論述。${promptLang}。
+注意：【4. 競爭品牌與市場差異】與【9. AI 工具應用建議】，請你根據客戶產業特性自動推論並撰寫高價值建議！
+【嚴格格式限制】：只能回傳純 JSON 格式字串。絕對禁止在 JSON 中直接換行（請用 \\n）！格式如下：
+{
+  "1": "...", "2": "...", "3": "...", "4": "...", "5": "...",
+  "6": "...", "7": "...", "8": "...", "9": "...", "10": "..."
+}`;
+
+            try {
+                const responseText = await callGemini(prompt);
+                const aiData = extractSafeJSON(responseText);
+                
+                if (aiData) {
+                    manualChapters.forEach(c => {
+                        if(aiData[c.id]) currentState.manualData[c.id] = aiData[c.id];
+                    });
+                    renderManual();
+                    const title = currentLang === 'zh' ? '全本手冊智能撰寫完成！' : 'Full Manual Generation Complete!';
+                    const desc = currentLang === 'zh' ? 'AI 已轉化您的所有任務片段，包含主動推論的競爭差異與工具建議。' : 'AI has transformed all your fragments, including inferred competitor differences and tool suggestions.';
+                    out.innerHTML = `
+                        <div class="text-emerald-400 space-y-1">
+                            <p class="font-bold text-lg"><i class="fas fa-brain mr-2"></i> ${title}</p>
+                            <p class="text-xs">${desc}</p>
+                        </div>`;
+                } else throw new Error("JSON Parse Failed");
+            } catch (error) {
+                out.innerHTML = `<p class="text-red-400"><i class="fas fa-times-circle mr-2"></i> Error: ${error.message}</p>`;
+            } finally {
+                btn.innerHTML = `<i class="fas fa-brain mr-2"></i> <span>${i18n[currentLang].btnGenerateManual}</span>`;
+                btn.disabled = false;
+            }
+        }
+
+        // --- 共用 Word 匯出核心邏輯 ---
+        function downloadWordDoc(filename, contentBody) {
+            const date = new Date().toISOString().split('T')[0];
+            const dateLabel = currentLang === 'zh' ? '匯出日期' : 'Export Date';
+            let content = `
+                <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+                <head>
+                    <meta charset='utf-8'>
+                    <title>BrandBase Document</title>
+                    <style>
+                        body { font-family: 'Microsoft JhengHei', Arial, sans-serif; line-height: 1.6; color: #333; }
+                        h1 { color: #1e3a8a; border-bottom: 2px solid #1e3a8a; padding-bottom: 10px; margin-bottom: 20px; font-size: 18pt;}
+                        h2 { color: #2563eb; margin-top: 25px; margin-bottom: 10px; font-size: 14pt;}
+                        h3 { color: #3b82f6; margin-top: 20px; font-size: 12pt;}
+                        p { margin-bottom: 15px; font-size: 11pt; }
+                        strong { color: #1e40af; }
+                    </style>
+                </head>
+                <body>
+                    <p style="text-align: right; color: #666; font-size: 9pt;"><em>${dateLabel}: ${date}</em></p>
+                    ${contentBody}
+                </body></html>
+            `;
+            const blob = new Blob(['\ufeff', content], { type: 'application/msword' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a'); link.href = url; link.download = filename;
+            document.body.appendChild(link); link.click(); document.body.removeChild(link); URL.revokeObjectURL(url);
+        }
+
+        function exportCurrentTask() {
+            const taskId = currentState.currentTaskId;
+            const task = taskDefinitions.find(t => t.id === taskId);
+            const brandName = document.getElementById('base_brandName').value || 'BrandBase';
+            const date = new Date().toISOString().split('T')[0];
+            const notFilled = currentLang === 'zh' ? '尚未填寫' : 'Not filled';
+            const titlePrefix = currentLang === 'zh' ? '任務' : 'Task';
+            
+            let contentBody = `<h1>${brandName} - ${titlePrefix}: ${task.name[currentLang]}</h1>`;
+            task.fields.forEach(field => {
+                const val = document.getElementById(`field_${field.key}`).value || notFilled;
+                contentBody += `<h3>▪ ${field.label[currentLang]}</h3><p>${val.replace(/\n/g, '<br>')}</p>`;
+            });
+            downloadWordDoc(`BrandBase_Task_${taskId}_${brandName}_${date}.doc`, contentBody);
+            
+            const msg = currentLang === 'zh' ? `【${task.name[currentLang]}】已成功匯出為 Word 檔案！` : `Task [${task.name[currentLang]}] exported successfully!`;
+            document.getElementById('aiReplyContent').innerHTML = `<p class="text-emerald-400 font-bold"><i class="fas fa-check-circle mr-1"></i> ${msg}</p>`;
+        }
+
+        function exportAiReply() {
+            const taskId = currentState.currentTaskId;
+            const task = taskDefinitions.find(t => t.id === taskId);
+            const brandName = document.getElementById('base_brandName').value || 'BrandBase';
+            const date = new Date().toISOString().split('T')[0];
+            
+            const title1 = currentLang === 'zh' ? 'TONY 專家深度追問' : 'TONY Expert Deep Probing';
+            const title2 = currentLang === 'zh' ? '對應任務' : 'Target Task';
+            
+            const aiReplyHtml = document.getElementById('aiReplyContent').innerHTML;
+            let contentBody = `<h1>${brandName} - ${title1}</h1><h2>${title2}: ${task.name[currentLang]}</h2>
+            <div style="background-color: #f8fafc; padding: 15px; border-left: 4px solid #3b82f6;">${aiReplyHtml}</div>`;
+            downloadWordDoc(`BrandBase_AI_Reply_${taskId}_${brandName}_${date}.doc`, contentBody);
+        }
+
+        function exportManual() {
+            const brandName = document.getElementById('base_brandName').value || 'BrandBase';
+            const date = new Date().toISOString().split('T')[0];
+            const title = currentLang === 'zh' ? '品牌成功手冊' : 'Brand Success Manual';
+            const notFilled = currentLang === 'zh' ? '尚未填寫' : 'Not filled';
+
+            let contentBody = `<h1>${brandName} ${title}</h1>`;
+            manualChapters.forEach(chapter => {
+                const text = currentState.manualData[chapter.id] || notFilled;
+                contentBody += `<h2>${chapter.title[currentLang]}</h2><p>${text.replace(/\n/g, '<br>')}</p>`;
+            });
+            downloadWordDoc(`BrandBase_Manual_${brandName}_${date}.doc`, contentBody);
+            
+            const msg = currentLang === 'zh' ? '【品牌成功手冊】已成功匯出為 Word 檔案！' : '[Brand Success Manual] exported to Word successfully!';
+            document.getElementById('aiReplyContent').innerHTML = `<p class="text-emerald-400 font-bold"><i class="fas fa-check-circle mr-1"></i> ${msg}</p>`;
+        }
+
+        async function askConsultant() {
+            const taskId = currentState.currentTaskId;
+            const btn = document.getElementById('btnQuestion');
+            const out = document.getElementById('aiReplyContent');
+            const msgLoading = currentLang === 'zh' ? 'TONY 顧問思考中...' : 'Consultant TONY is thinking...';
+            btn.disabled = true; out.innerHTML = `<div class="text-blue-300"><i class="fas fa-spinner fa-spin mr-2"></i> ${msgLoading}</div>`;
+
+            const promptLang = currentLang === 'zh' ? '請用繁體中文回答' : 'Please answer in English';
+            const prompt = `你是TONY老師。基於資料：${getBaseContext()}。目前任務：${taskDefinitions.find(t=>t.id===taskId).name[currentLang]}。
+請提出 3 個能直擊老闆痛點的「深度追問」，讓他反思這個任務。條列式，200字內。絕不能包含任何前言、結語（不要說好的）。${promptLang}。`;
+            try {
+                const responseText = await callGemini(prompt);
+                out.innerHTML = responseText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+            } catch (error) { out.innerHTML = `<p class="text-red-400">Error: ${error.message}</p>`; } 
+            finally { btn.disabled = false; }
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>
