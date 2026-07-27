@@ -66,14 +66,14 @@
         <aside class="w-full md:w-3/12 flex flex-col gap-6">
             
             <!-- 智創品牌模板 12 問 -->
-            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 sticky top-24 transition-shadow hover:shadow-md">
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 md:sticky md:top-24 transition-shadow hover:shadow-md">
                 <h3 class="font-bold text-slate-800 mb-4 px-2 flex items-center">
                     <div class="w-8 h-8 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center mr-3 shadow-inner">
                         <i class="fas fa-tasks"></i>
                     </div>
                     <span data-i18n="taskNavTitle">智創品牌模板 12 問</span>
                 </h3>
-                <nav class="space-y-1.5 max-h-[calc(100vh-200px)] overflow-y-auto pr-2" id="taskNav">
+                <nav class="space-y-1.5 max-h-56 md:max-h-[calc(100vh-200px)] overflow-y-auto pr-2" id="taskNav">
                     <!-- JS 動態生成任務列表 -->
                 </nav>
             </div>
@@ -174,7 +174,7 @@
             <div class="flex flex-col xl:flex-row gap-6">
                 
                 <!-- 左側分欄：單一任務輸入區 -->
-                <section class="w-full xl:w-7/12 flex flex-col gap-5">
+                <section id="taskWorkspace" class="w-full xl:w-7/12 flex flex-col gap-5">
                     <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 border-t-4 border-blue-500 relative">
                         
                         <div class="mb-6 pb-4 border-b border-slate-100 flex justify-between items-start">
@@ -578,6 +578,18 @@
                     </div>
                 `);
             });
+
+            // 手機版自動往下捲動到任務區
+            if (window.innerWidth < 768) {
+                setTimeout(() => {
+                    const target = document.getElementById('taskWorkspace');
+                    if(target) {
+                        // 扣除上方 header 的高度 (大約 80px)，避免標題被遮擋
+                        const y = target.getBoundingClientRect().top + window.scrollY - 80; 
+                        window.scrollTo({ top: y, behavior: 'smooth' });
+                    }
+                }, 100);
+            }
         }
 
         function saveTaskField(taskId, key, value) {
