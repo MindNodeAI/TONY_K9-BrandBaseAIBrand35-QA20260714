@@ -200,7 +200,7 @@
                                 <i class="fas fa-magic mr-2"></i> <span data-i18n="btnDraft">✨ AI 深度優化與擴寫本區</span>
                             </button>
                             <button onclick="askConsultant()" id="btnQuestion" class="flex-1 bg-white border border-slate-300 text-slate-700 hover:bg-slate-50 hover:border-slate-400 px-4 py-3 rounded-xl text-sm font-bold shadow-sm transition-all flex items-center justify-center active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed">
-                                <i class="fas fa-user-tie mr-2 text-blue-600"></i> <span data-i18n="btnQuestion">💡 產生顧問深度追問</span>
+                                <i class="fas fa-user-tie mr-2 text-blue-600"></i> <span data-i18n="btnQuestion">💡 產生 SMEbig 司馬大顧問深度追問</span>
                             </button>
                             <button onclick="exportCurrentTask()" class="sm:w-auto w-full bg-slate-100 text-slate-700 border border-slate-300 hover:bg-slate-200 px-4 py-3 rounded-xl text-sm font-bold shadow-sm transition-all flex items-center justify-center active:scale-95" title="匯出本區任務內容 (Word)">
                                 <i class="fas fa-file-word text-blue-700"></i>
@@ -215,7 +215,7 @@
                                     <div class="w-7 h-7 rounded bg-blue-500/20 flex items-center justify-center mr-2">
                                         <i class="fas fa-robot"></i>
                                     </div>
-                                    <span data-i18n="aiPanelTitle">TONY 顧問對話與系統狀態區</span>
+                                    <span data-i18n="aiPanelTitle">SMEbig 司馬大顧問對話與系統狀態區</span>
                                 </h3>
                                 <button onclick="exportAiReply()" class="text-xs bg-slate-800 hover:bg-slate-700 border border-slate-600 px-2.5 py-1.5 rounded-lg text-slate-200 transition-colors flex items-center shadow-sm">
                                     <i class="fas fa-download mr-1.5"></i> <span data-i18n="btnExportReply">匯出追問</span>
@@ -268,8 +268,8 @@
     <!-- 底部版權宣告 -->
     <footer class="bg-slate-900 text-slate-400 py-6 px-4 text-center text-xs mt-auto border-t border-slate-800">
         <div class="max-w-4xl mx-auto space-y-1.5 leading-relaxed">
-            <p><strong data-i18n="footerDesign" class="text-slate-300">AI 系統規劃與平台設計</strong>：<span data-i18n="footerCopyright">版權所有 © 2026 TONY STUDIO (楊文澤 顧問) All Rights Reserved.</span></p>
-            <p><strong data-i18n="footerMethod" class="text-slate-300">品牌輔導方法論</strong>：<span data-i18n="footerPartner">授權合作自 智策慧品牌顧問公司。</span></p>
+            <p><strong data-i18n="footerMethod" class="text-slate-300">品牌輔導方法論</strong>：<span data-i18n="footerPartner">智策慧品牌顧問有限公司</span></p>
+            <p><strong data-i18n="footerDesign" class="text-slate-300">AI 系統規劃與平台設計</strong>：<span data-i18n="footerCopyright">TONY STUDIO (楊文澤顧問)</span></p>
             <p class="text-slate-500 mt-3 pt-3 border-t border-slate-800/50" data-i18n="footerWarning">本平台為專屬協作環境，未經授權請勿重製或用於商業用途。</p>
         </div>
     </footer>
@@ -347,18 +347,18 @@
                 currentTaskBadge: "目前任務",
                 videoLabel: "搭配影片",
                 btnDraft: "AI 深度優化與擴寫本區",
-                btnQuestion: "產生 TONY 顧問深度追問",
+                btnQuestion: "產生 SMEbig 司馬大顧問深度追問",
                 btnExportTask: "匯出本區任務內容",
-                aiPanelTitle: "TONY 顧問對話與系統狀態區",
+                aiPanelTitle: "SMEbig 司馬大顧問對話與系統狀態區",
                 btnExportReply: "匯出追問",
                 manualTitle: "品牌成功手冊",
                 manualDesc: "經 AI 轉化與整合的最終心血結晶",
                 btnExportManual: "匯出 Word",
                 btnGenerateManual: "AI 智能彙整：全局整合自動撰寫全本手冊",
-                footerDesign: "AI 系統規劃與平台設計",
-                footerCopyright: "版權所有 © 2026 TONY STUDIO (楊文澤 顧問) All Rights Reserved.",
                 footerMethod: "品牌輔導方法論",
-                footerPartner: "授權合作自 智策慧品牌顧問公司。",
+                footerPartner: "智策慧品牌顧問有限公司",
+                footerDesign: "AI 系統規劃與平台設計",
+                footerCopyright: "TONY STUDIO (楊文澤顧問)",
                 footerWarning: "本平台為專屬協作環境，未經授權請勿重製或用於商業用途。",
                 aiReplyDefault: `<div class="space-y-3">
                                     <p class="text-blue-300 font-bold tracking-wide"><i class="fas fa-hand-sparkles mr-2"></i>歡迎來到 AI 智創品牌健檢中心！</p>
@@ -404,18 +404,18 @@
                 currentTaskBadge: "Current Task",
                 videoLabel: "Related Video",
                 btnDraft: "AI Deep Optimize Section",
-                btnQuestion: "Generate Deep Probing Questions",
+                btnQuestion: "Generate SMEbig Consultant Probing Questions",
                 btnExportTask: "Export Task",
-                aiPanelTitle: "TONY Consultant Dialog & Status",
+                aiPanelTitle: "SMEbig Consultant Dialog & Status",
                 btnExportReply: "Export Questions",
                 manualTitle: "Brand Success Manual",
                 manualDesc: "The final crystallization of AI transformation",
                 btnExportManual: "Export Word",
                 btnGenerateManual: "AI Smart Integration: Auto-write Full Manual",
-                footerDesign: "AI System Architecture & Platform Design",
-                footerCopyright: "Copyright © 2026 TONY STUDIO. All Rights Reserved.",
                 footerMethod: "Brand Consulting Methodology",
-                footerPartner: "Authorized partnership with Swot Consulting.",
+                footerPartner: "Swot Consulting Co., Ltd.",
+                footerDesign: "AI System Architecture & Platform Design",
+                footerCopyright: "TONY STUDIO (Consultant Tony Yang)",
                 footerWarning: "Exclusive collaboration environment. Unauthorized reproduction prohibited.",
                 aiReplyDefault: `<div class="space-y-3">
                                     <p class="text-blue-300 font-bold tracking-wide"><i class="fas fa-hand-sparkles mr-2"></i>Welcome to AI Brand Discovery!</p>
@@ -766,7 +766,7 @@
             </div>`;
 
             const promptLang = currentLang === 'zh' ? '請用流暢專業的繁體中文回答' : 'Please answer in professional English';
-            const prompt = `你是資深品牌顧問 TONY 老師。基於資料：${getBaseContext()}。
+            const prompt = `你是資深品牌顧問 SMEbig 司馬大顧問。基於資料：${getBaseContext()}。
 請優先透過 Google 搜尋解析官方網站內容。為我草擬品牌【完整 12 個任務】的內部輸入欄位草稿。務必精簡扼要，直指核心。
 ${promptLang}。
 【極度重要限制】：必須嚴格回傳純 JSON 格式字串，絕不包含任何 Markdown 說明文字（不要包含 \`\`\`json 標籤）。絕對禁止在 JSON 內容中直接換行，若需換行請使用 \\n 字元。格式如下：
@@ -831,7 +831,7 @@ ${promptLang}。
             const promptLang = currentLang === 'zh' ? '請用繁體中文回答' : 'Please answer in English';
             const prompt = `基於品牌資料：${getBaseContext()}。目前任務：${task.name[currentLang]}。
 【使用者目前的想法】：\n${currentInput ? currentInput : "(空白)"}
-【重要指令】：你是 TONY 老師。請「吸收使用者的想法」，結合網路搜尋，將其「深度優化、專業化、具體化」。${promptLang}。
+【重要指令】：你是 SMEbig 司馬大顧問。請「吸收使用者的想法」，結合網路搜尋，將其「深度優化、專業化、具體化」。${promptLang}。
 【極度重要限制】：嚴格回傳純 JSON 格式字串，不加廢話，不要 Markdown 標籤。絕對禁止直接換行（請用 \\n）。格式如下：\n{ ${fieldKeys} }`;
 
             try {
@@ -884,7 +884,7 @@ ${promptLang}。
             });
 
             const promptLang = currentLang === 'zh' ? '請用流暢專業的繁體中文撰寫' : 'Please write in fluent, professional English';
-            const prompt = `你現在是系統資料產出端 API。請扮演資深品牌顧問 TONY 老師。
+            const prompt = `你現在是系統資料產出端 API。請扮演資深品牌顧問 SMEbig 司馬大顧問。
 請根據客戶的【品牌基本資料】：${getBaseContext()}
 以及他們在 12 個診斷任務中填寫的【素材庫】：${allTasksData}
 
@@ -987,7 +987,7 @@ ${promptLang}。
             const brandName = document.getElementById('base_brandName').value || 'BrandBase';
             const date = new Date().toISOString().split('T')[0];
             
-            const title1 = currentLang === 'zh' ? 'TONY 專家深度追問' : 'TONY Expert Deep Probing';
+            const title1 = currentLang === 'zh' ? 'SMEbig 司馬大專家深度追問' : 'SMEbig Expert Deep Probing';
             const title2 = currentLang === 'zh' ? '對應任務' : 'Target Task';
             
             const aiReplyHtml = document.getElementById('aiReplyContent').innerHTML;
@@ -1024,7 +1024,7 @@ ${promptLang}。
             out.innerHTML = `<div class="text-blue-300 animate-pulse flex items-center"><i class="fas fa-circle-notch fa-spin mr-3 text-lg"></i> ${msgLoading}</div>`;
 
             const promptLang = currentLang === 'zh' ? '請用繁體中文回答' : 'Please answer in English';
-            const prompt = `你是TONY老師。基於資料：${getBaseContext()}。目前任務：${taskDefinitions.find(t=>t.id===taskId).name[currentLang]}。
+            const prompt = `你是SMEbig司馬大顧問。基於資料：${getBaseContext()}。目前任務：${taskDefinitions.find(t=>t.id===taskId).name[currentLang]}。
 請提出 3 個能直擊痛點的「深度追問」，讓他反思這個任務。條列式，200字內。絕不能包含任何前言、結語（不要說好的）。${promptLang}。`;
             try {
                 const responseText = await callGemini(prompt);
