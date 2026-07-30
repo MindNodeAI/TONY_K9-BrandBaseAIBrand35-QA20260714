@@ -472,18 +472,60 @@
         taskDefinitions.forEach(t => currentState.taskData[t.id] = {});
         manualChapters.forEach(c => currentState.manualData[c.id] = "");
 
-        function init() {
-            applyLanguage();
-            renderNav();
-            renderManual();
-            selectTask(1);
-            document.getElementById('aiReplyContent').innerHTML = i18n[currentLang].aiReplyDefault;
+        // --- Local Storage 自動存取邏輯 ---
+        function saveToLocalStorage() {
+            const data = {
+                brand: {
+                    name: document.getElementById('base_brandName').value,
+                    url: document.getElementById('base_brandUrl').value,
+                    industry: document.getElementById('base_industry').value,
+                    product: document.getElementById('base_product').value,
+                    extraUrl: document.getElementById('base_extraUrl').value
+                },
+                state: currentState
+            };
+            localStorage.setItem('brandbase_data', JSON.stringify(data));
         }
 
-        function toggleLanguage() {
-            currentLang = currentLang === 'zh' ? 'en' : 'zh';
-            document.getElementById('langToggleText').innerText = currentLang === 'zh' ? 'English' : '中文';
+        function loadFromLocalStorage() {
+            const saved = localStorage.getItem('brandbase_data');
+            if (saved) {
+                try {
+                    const data = JSON.parse(saved);
+                    // 還原品牌基本資料
+                    if (data.brand) {
+                        document.getElementById('base_brandName').value = data.brand.name || '';
+                        document.getElementById('base_brandUrl').value = data.brand.url || '';
+                        document.getElementById('base_industry').value = data.brand.industry || '';
+                        document.getElementById('base_product').value = data.brand.product || '';
+                        document.getElementById('base_extraUrl').value = data.brand.extraUrl || '';
+                    }
+                    // 還原任務與手冊狀態
+                    if (data.state) {
+                        currentState = data.state;
+                        // 確保新舊資料結構相容
+                        if (!currentState.taskData) currentState.taskData = {};
+                        if (!currentState.manualData) currentState.manualData = {};
+                        taskDefinitions.forEach(t => { if (!currentState.taskData[t.id]) currentState.taskData[t.id] = {}; });
+                        manualChapters.forEach(c => { if (!currentState.manualData[c.id]) currentState.manualData[c.id] = ""; });
+                    }
+                } catch (e) {
+                    console.error("Local Storage 資料解析失敗:", e);
+                }
+            }
+        }
+        // ---------------------------------
+
+        function init() {
             applyLanguage();
+            loadFromLocalStorage(); // 載入本地暫存進度
+            
+            // 替基本資料欄位綁定自動存檔事件
+            ['base_brandName', 'base_brandUrl', 'base_industry', 'base_product', 'base_extraUrl'].forEach(id => {
+                const el = document.getElementById(id);
+                if(el) el.addEventListener('input', saveToLocalStorage);
+            });
+
             renderNav();
             renderManual();
             selectTask(currentState.currentTaskId);
@@ -534,14 +576,12 @@
             const placeholderText = i18n[currentLang].manualPlaceholder;
             manualChapters.forEach(chapter => {
                 const val = currentState.manualData[chapter.id] || '';
+                const titleText = chapter.title[currentLang];
                 manualArea.insertAdjacentHTML('beforeend', `
-                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm transition-all duration-300 hover:shadow-md hover:border-emerald-300 group" id="manual_ch_${chapter.id}">
-                        <h4 class="font-bold text-slate-700 mb-3 border-b border-slate-100 pb-2.5 flex items-center">
-                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-2 opacity-50 group-hover:opacity-100 transition-opacity"></span>
-                            ${chapter.title[currentLang]}
-                        </h4>
-                        <textarea class="w-full h-36 border border-slate-200 rounded-lg p-3.5 text-[13px] focus:ring-2 focus:ring-emerald-200 focus:border-emerald-500 text-slate-700 bg-slate-50 hover:bg-white transition-all leading-relaxed outline-none resize-y" 
-                            onchange="currentState.manualData[${chapter.id}] = this.value"
+                    <div class="bg-white p-4 rounded border border-slate-200 shadow-sm transition-all duration-300" id="manual_ch_${chapter.id}">
+                        <h4 class="font-bold text-slate-700 mb-2 border-b border-slate-100 pb-2">${titleText}</h4>
+                        <textarea class="w-full h-32 border border-slate-200 rounded p-3 text-sm focus:ring-2 focus:ring-emerald-500 text-slate-700 bg-slate-50/50 leading-relaxed" 
+                            onchange="currentState.manualData[${chapter.id}] = this.value; saveToLocalStorage();"
                             placeholder="${placeholderText}">${val}</textarea>
                     </div>
                 `);
@@ -594,6 +634,7 @@
 
         function saveTaskField(taskId, key, value) {
             currentState.taskData[taskId][key] = value;
+            saveToLocalStorage(); // 輸入資料時自動存檔
         }
 
         function handleFileUpload(event) {
@@ -787,13 +828,13 @@ ${promptLang}。
 
             try {
                 const responseText = await callGemini(prompt);
-                if (!responseText) return;
                 const aiData = extractSafeJSON(responseText);
                 if (aiData) {
                     for (const taskId in aiData) {
                         currentState.taskData[taskId] = { ...currentState.taskData[taskId], ...aiData[taskId] };
                     }
-                    const msgSuccess = currentLang === 'zh' ? "全域掃描完成！12 問草稿已全數為您預填。" : "Global scan complete! 12 questions pre-filled.";
+                    saveToLocalStorage(); // AI 預填後自動存檔
+                    const msgSuccess = currentLang === 'zh' ? "全域掃描完成！12 問已預填。" : "Global scan complete! 12 questions pre-filled.";
                     out.innerHTML = `<div class="text-emerald-400 bg-emerald-900/20 p-3 rounded-lg border border-emerald-500/30 flex items-center">
                         <i class="fas fa-check-circle text-xl mr-3"></i>
                         <span class="font-bold text-sm">${msgSuccess}</span>
@@ -836,83 +877,13 @@ ${promptLang}。
 
             try {
                 const responseText = await callGemini(prompt);
-                if (!responseText) return;
-                const aiData = extractSafeJSON(responseText);
-                if (aiData) {
-                    Object.keys(aiData).forEach(key => {
-                        const inputEl = document.getElementById(`field_${key}`);
-                        if (inputEl) {
-                            inputEl.value = aiData[key];
-                            // 重新觸發高亮動畫
-                            inputEl.classList.remove('ai-filled'); void inputEl.offsetWidth; inputEl.classList.add('ai-filled');
-                            saveTaskField(taskId, key, aiData[key]);
-                        }
-                    });
-                    const msgSuccess = currentLang === 'zh' 
-                        ? "已為您完成專家級擴寫！請檢閱內容或前往下一題。"
-                        : "Expert expansion complete! Review content or proceed to next task.";
-                    out.innerHTML = `<div class="text-emerald-400 bg-emerald-900/20 p-3 rounded-lg border border-emerald-500/30 flex items-center">
-                        <i class="fas fa-check-circle text-xl mr-3"></i>
-                        <span class="font-bold text-sm">${msgSuccess}</span>
-                    </div>`;
-                } else throw new Error("JSON Parse Failed: AI Response format was invalid.");
-            } catch (error) {
-                out.innerHTML = `<div class="text-red-400 bg-red-900/20 p-3 rounded-lg border border-red-500/30"><i class="fas fa-times-circle mr-2"></i> Error: ${error.message}</div>`;
-            } finally {
-                btn.innerHTML = originalText;
-                btn.disabled = false;
-            }
-        }
-
-        async function generateFullManual() {
-            const btn = document.getElementById('btnGenerateManual');
-            const out = document.getElementById('aiReplyContent');
-            if (!window.userApiKey) return callGemini("");
-
-            btn.classList.remove('animate-pulse');
-            const msgLoading = currentLang === 'zh' ? "全局大腦運轉中，正在撰寫全本 10 大章節 (約 30 秒)..." : "Global Brain running, writing 10 chapters (30s)...";
-            btn.innerHTML = `<i class="fas fa-circle-notch fa-spin mr-2 text-lg"></i> <span>${msgLoading}</span>`;
-            btn.disabled = true;
-
-            let allTasksData = "";
-            taskDefinitions.forEach(t => {
-                allTasksData += `\n【Task: ${t.name[currentLang]}】\n`;
-                t.fields.forEach(f => {
-                    const val = currentState.taskData[t.id][f.key];
-                    if(val) allTasksData += `- ${f.label[currentLang]}: ${val}\n`;
-                });
-            });
-
-            const promptLang = currentLang === 'zh' ? '請用流暢專業的繁體中文撰寫' : 'Please write in fluent, professional English';
-            const prompt = `你現在是系統資料產出端 API。請扮演資深品牌顧問 SMEbig 司馬大顧問。
-請根據客戶的【品牌基本資料】：${getBaseContext()}
-以及他們在 12 個診斷任務中填寫的【素材庫】：${allTasksData}
-
-【重要指令】：請為客戶撰寫一份完整的「品牌成功手冊」。發揮 AI 強大的「全局推論與轉化」能力，將零散的資料融合為流暢的專業論述。${promptLang}。
-注意：【4. 競爭品牌與市場差異】與【9. AI 工具應用建議】，請你根據客戶產業特性自動推論並撰寫高價值建議！
-【嚴格格式限制】：只能回傳純 JSON 格式字串。絕對禁止在 JSON 中直接換行（請用 \\n）！不要 Markdown 標籤！格式如下：
-{
-  "1": "第一章內容...", "2": "第二章內容...", "3": "...", "4": "...", "5": "...",
-  "6": "...", "7": "...", "8": "...", "9": "...", "10": "..."
-}`;
-
-            try {
-                const responseText = await callGemini(prompt);
-                if (!responseText) return;
                 const aiData = extractSafeJSON(responseText);
                 
                 if (aiData) {
                     manualChapters.forEach(c => {
-                        if(aiData[c.id]) {
-                            currentState.manualData[c.id] = aiData[c.id];
-                            // 如果成功生成，給予高亮提示
-                            const el = document.getElementById(`manual_ch_${c.id}`);
-                            if(el) {
-                                el.querySelector('textarea').classList.add('ai-filled');
-                                setTimeout(() => el.querySelector('textarea').classList.remove('ai-filled'), 2000);
-                            }
-                        }
+                        if(aiData[c.id]) currentState.manualData[c.id] = aiData[c.id];
                     });
+                    saveToLocalStorage(); // AI 產出手冊後自動存檔
                     renderManual();
                     const title = currentLang === 'zh' ? '全本手冊智能撰寫完成！' : 'Full Manual Generation Complete!';
                     const desc = currentLang === 'zh' ? 'AI 已將您的片段素材轉化為連貫的品牌專業論述。' : 'AI has transformed your fragments into a cohesive brand manual.';
