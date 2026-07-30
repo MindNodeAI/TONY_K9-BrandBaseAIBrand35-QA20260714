@@ -1013,6 +1013,94 @@ ${promptLang}。
             }
         }
 
+        // 新增：全局智能彙整 (全本手冊生成)
+        async function generateFullManual() {
+            const btn = document.getElementById('btnGenerateManual');
+            const out = document.getElementById('aiReplyContent');
+            const originalText = btn.innerHTML; // 記住按鈕原本的文字
+
+            if (!window.userApiKey) return callGemini(""); // 觸發未設定金鑰錯誤
+
+            // 1. 設定按鈕狀態 (旋轉動畫 + 文字)
+            const msgBtnLoading = currentLang === 'zh' ? "AI 整合撰寫中 (需 30 秒)..." : "Integrating (30s)...";
+            btn.innerHTML = `<i class="fas fa-circle-notch fa-spin text-lg mr-2"></i> <span>${msgBtnLoading}</span>`;
+            btn.disabled = true;
+            btn.classList.remove('animate-pulse');
+
+            // 2. 設定顧問對話區狀態 (呼吸燈動畫)
+            const msgPanelLoading = currentLang === 'zh' 
+                ? "AI 全局大腦運轉中，正在深度融合您的 12 問素材並撰寫 10 大章節 (這需要耗費較大算力，大約需 30~40 秒，請稍候)..." 
+                : "AI Global Brain running, writing 10 chapters (approx. 30-40s)...";
+            out.innerHTML = `<div class="text-emerald-300 animate-pulse flex items-center bg-emerald-900/20 p-4 rounded-lg border border-emerald-500/20 shadow-inner">
+                <i class="fas fa-brain fa-spin-pulse text-2xl mr-3"></i>
+                <span class="text-sm font-medium tracking-wide leading-relaxed">${msgPanelLoading}</span>
+            </div>`;
+
+            // 3. 收集所有 12 問資料
+            let allTasksData = "";
+            taskDefinitions.forEach(t => {
+                allTasksData += `\n【Task: ${t.name[currentLang]}】\n`;
+                t.fields.forEach(f => {
+                    const val = currentState.taskData[t.id][f.key];
+                    if(val) allTasksData += `- ${f.label[currentLang]}: ${val}\n`;
+                });
+            });
+
+            const promptLang = currentLang === 'zh' ? '請用流暢專業的繁體中文撰寫' : 'Please write in fluent, professional English';
+            const prompt = `你是資深品牌顧問 SMEbig 司馬大顧問。
+請根據客戶的【品牌基本資料】：${getBaseContext()}
+以及他們在 12 個診斷任務中填寫的【素材庫】：${allTasksData}
+
+【重要指令】：請為客戶撰寫一份完整的「品牌成功手冊」。發揮 AI 強大的「全局推論與轉化」能力，將零散的資料融合為流暢的專業論述。${promptLang}。
+注意：【4. 競爭品牌與市場差異】與【9. AI 工具應用建議】，請你根據客戶產業特性自動推論並撰寫高價值建議！
+【極度重要限制】：只能回傳純 JSON 格式字串。絕對禁止在 JSON 中直接換行（請用 \\n）！格式如下：
+{
+  "1": "...", "2": "...", "3": "...", "4": "...", "5": "...",
+  "6": "...", "7": "...", "8": "...", "9": "...", "10": "..."
+}`;
+
+            try {
+                const responseText = await callGemini(prompt);
+                const aiData = extractSafeJSON(responseText);
+                
+                if (aiData) {
+                    manualChapters.forEach(c => {
+                        if (aiData[c.id]) {
+                            currentState.manualData[c.id] = aiData[c.id];
+                            
+                            // 視覺特效：讓更新的手冊欄位亮起黃色動畫
+                            const textarea = document.querySelector(`#manual_ch_${c.id} textarea`);
+                            if (textarea) {
+                                textarea.value = aiData[c.id];
+                                textarea.classList.remove('ai-filled'); 
+                                void textarea.offsetWidth; // 觸發重繪
+                                textarea.classList.add('ai-filled');
+                            }
+                        }
+                    });
+                    saveToLocalStorage(); // 彙整完畢後自動存檔
+                    
+                    const title = currentLang === 'zh' ? '全本手冊智能撰寫完成！' : 'Full Manual Generation Complete!';
+                    const desc = currentLang === 'zh' ? 'AI 已完美轉化您的所有任務片段，包含主動推論的競爭差異與工具建議。請檢閱右側手冊內容！' : 'AI has transformed all your fragments. Please review the manual on the right!';
+                    out.innerHTML = `
+                        <div class="text-emerald-400 bg-emerald-900/20 p-4 rounded-lg border border-emerald-500/30 flex items-start shadow-inner">
+                            <i class="fas fa-check-circle text-2xl mr-3 mt-1 text-emerald-500"></i>
+                            <div>
+                                <strong class="block text-base mb-1 tracking-wide">${title}</strong>
+                                <span class="text-xs text-slate-300 leading-relaxed">${desc}</span>
+                            </div>
+                        </div>`;
+                } else throw new Error("JSON Parse Failed");
+            } catch (error) {
+                out.innerHTML = `<div class="text-red-400 bg-red-900/20 p-3 rounded-lg border border-red-500/30"><i class="fas fa-times-circle mr-2"></i> Error: ${error.message}</div>`;
+            } finally {
+                // 恢復按鈕原本狀態
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                btn.classList.add('animate-pulse'); // 恢復原本的閃爍提示效果
+            }
+        }
+
         // 啟動系統
         window.onload = init;
     </script>
