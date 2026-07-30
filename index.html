@@ -880,16 +880,20 @@ ${promptLang}。
                 const aiData = extractSafeJSON(responseText);
                 
                 if (aiData) {
-                    manualChapters.forEach(c => {
-                        if(aiData[c.id]) currentState.manualData[c.id] = aiData[c.id];
+                    Object.keys(aiData).forEach(key => {
+                        const inputEl = document.getElementById(`field_${key}`);
+                        if (inputEl) {
+                            inputEl.value = aiData[key];
+                            // 觸發亮黃色的更新動畫
+                            inputEl.classList.remove('ai-filled'); void inputEl.offsetWidth; inputEl.classList.add('ai-filled');
+                            saveTaskField(taskId, key, aiData[key]);
+                        }
                     });
-                    saveToLocalStorage(); // AI 產出手冊後自動存檔
-                    renderManual();
-                    const title = currentLang === 'zh' ? '全本手冊智能撰寫完成！' : 'Full Manual Generation Complete!';
-                    const desc = currentLang === 'zh' ? 'AI 已將您的片段素材轉化為連貫的品牌專業論述。' : 'AI has transformed your fragments into a cohesive brand manual.';
+                    const title = currentLang === 'zh' ? '任務深度優化完成！' : 'Task Optimization Complete!';
+                    const desc = currentLang === 'zh' ? 'AI 已為您完成專家級擴寫與優化！請繼續完成其他任務。' : 'Expert expansion and optimization complete! Continue with other tasks.';
                     out.innerHTML = `
                         <div class="text-emerald-400 bg-emerald-900/20 p-4 rounded-lg border border-emerald-500/30 flex items-start shadow-inner">
-                            <i class="fas fa-brain text-2xl mr-3 mt-1 text-emerald-500"></i>
+                            <i class="fas fa-check-circle text-2xl mr-3 mt-1 text-emerald-500"></i>
                             <div>
                                 <strong class="block text-base mb-1 tracking-wide">${title}</strong>
                                 <span class="text-xs text-slate-300 leading-relaxed">${desc}</span>
