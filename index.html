@@ -903,7 +903,7 @@ ${promptLang}。
             } catch (error) {
                 out.innerHTML = `<div class="text-red-400 bg-red-900/20 p-3 rounded-lg border border-red-500/30"><i class="fas fa-times-circle mr-2"></i> Error: ${error.message}</div>`;
             } finally {
-                btn.innerHTML = `<i class="fas fa-brain mr-2 text-lg"></i> <span>${i18n[currentLang].btnGenerateManual}</span>`;
+                btn.innerHTML = originalText;
                 btn.disabled = false;
             }
         }
